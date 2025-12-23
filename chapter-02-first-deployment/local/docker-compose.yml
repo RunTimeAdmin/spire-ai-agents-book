@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  spire-server:
+    image: ghcr.io/spiffe/spire-server:1.8.0
+    hostname: spire-server
+    container_name: spire-server
+    volumes:
+      - ./spire-server.conf:/opt/spire/conf/server/server.conf:ro
+      - spire-server-data:/opt/spire/data
+    command: ["-config", "/opt/spire/conf/server/server.conf"]
+    ports:
+      - "8081:8081"
+    networks:
+      - spire
+    healthcheck:
+      test: ["/opt/spire/bin/spire-server", "healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  spire-agent:
+    image: ghcr.io/spiffe/spire-agent:1.8.0
+    hostname: spire-agent
+    container_name: spire-agent
+    depends_on:
+      spire-server:
+        condition: service_healthy
+    volumes:
+      - ./spire-agent.conf:/opt/spire/conf/agent/agent.conf:ro
+      - spire-agent-socket:/tmp/spire-agent/public
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: ["-config", "/opt/spire/conf/agent/agent.conf"]
+    networks:
+      - spire
+    healthcheck:
+      test: ["/opt/spire/bin/spire-agent", "healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  spire-server-data:
+    driver: local
+  spire-agent-socket:
+    driver: local
+
+networks:
+  spire:
+    driver: bridge

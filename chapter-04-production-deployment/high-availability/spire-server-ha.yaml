@@ -1,0 +1,161 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: spire-server
+  namespace: spire
+spec:
+  serviceName: spire-server
+  replicas: 3  # HA: 3 servers
+  selector:
+    matchLabels:
+      app: spire-server
+  template:
+    metadata:
+      labels:
+        app: spire-server
+    spec:
+      serviceAccountName: spire-server
+      containers:
+      - name: spire-server
+        image: ghcr.io/spiffe/spire-server:1.8.0
+        args:
+        - -config
+        - /run/spire/config/server.conf
+        ports:
+        - containerPort: 8081
+          name: grpc
+          protocol: TCP
+        - containerPort: 8443
+          name: https
+          protocol: TCP
+        - containerPort: 8080
+          name: health
+          protocol: TCP
+        volumeMounts:
+        - name: spire-config
+          mountPath: /run/spire/config
+          readOnly: true
+        - name: spire-server-data
+          mountPath: /run/spire/server/data
+        env:
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: password
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 5
+          failureThreshold: 3
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+      volumes:
+      - name: spire-config
+        configMap:
+          name: spire-server
+  volumeClaimTemplates:
+  - metadata:
+      name: spire-server-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spire-server
+  namespace: spire
+spec:
+  type: ClusterIP
+  selector:
+    app: spire-server
+  sessionAffinity: ClientIP  # Critical for gRPC long-lived connections
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800  # 3 hours
+  ports:
+  - name: grpc
+    port: 8081
+    targetPort: 8081
+    protocol: TCP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spire-server
+  namespace: spire
+data:
+  server.conf: |
+    server {
+        bind_address = "0.0.0.0"
+        bind_port = "8081"
+        trust_domain = "example.com"
+        data_dir = "/run/spire/server/data"
+        log_level = "INFO"
+        ca_ttl = "24h"
+        default_x509_svid_ttl = "1h"
+    }
+    
+    plugins {
+        DataStore "sql" {
+            plugin_data {
+                database_type = "postgres"
+                connection_string = "host=postgres.spire.svc.cluster.local port=5432 user=spire password=${DB_PASSWORD} dbname=spire sslmode=disable"
+                max_open_conns = 50
+                max_idle_conns = 25
+                conn_max_lifetime = "1h"
+            }
+        }
+        
+        KeyManager "memory" {
+            plugin_data {}
+        }
+        
+        NodeAttestor "k8s_psat" {
+            plugin_data {
+                clusters = {
+                    "demo-cluster" = {
+                        service_account_allow_list = ["spire:spire-agent"]
+                    }
+                }
+            }
+        }
+        
+        Notifier "k8sbundle" {
+            plugin_data {
+                namespace = "spire"
+            }
+        }
+    }
+    
+    health_checks {
+        listener_enabled = true
+        bind_address = "0.0.0.0"
+        bind_port = "8080"
+        live_path = "/live"
+        ready_path = "/ready"
+    }
+    
+    telemetry {
+        Prometheus {
+            host = "0.0.0.0"
+            port = 9988
+        }
+    }
