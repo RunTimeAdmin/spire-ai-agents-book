@@ -191,6 +191,6 @@ After completing this chapter:
 
 Questions about this chapter? 
 
-- [Open an issue](https://github.com/runtimefence/spire-ai-agents-book/issues)
+- [Open an issue](https://github.com/RunTimeAdmin/spire-ai-agents-book/issues)
 - Reference: Chapter 2 in the book
 - SPIRE Docs: https://spiffe.io/docs/latest/spire/

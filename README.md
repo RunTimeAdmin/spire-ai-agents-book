@@ -10,7 +10,7 @@ Production-ready code examples from the book **"SPIFFE/SPIRE for AI Agents: Prod
 
 This repository contains all code examples, configurations, and scripts from the book. Each chapter has its own directory with complete, runnable examples.
 
-**Get the book:** [Amazon](https://amazon.com/dp/YOUR_ASIN_HERE) | [RuntimeFence](https://runtimefence.com)
+**Get the book:** [Amazon](https://amazon.com/dp/YOUR_ASIN_HERE) | [RunTimeAdmin](https://runtimefence.com)
 
 **132,000 words** covering everything from first deployment to passing SOC2 audits with SPIRE and AI agents.
 
@@ -18,7 +18,7 @@ This repository contains all code examples, configurations, and scripts from the
 
 ```bash
 # Clone the repository
-git clone https://github.com/runtimefence/spire-ai-agents-book.git
+git clone https://github.com/RunTimeAdmin/spire-ai-agents-book.git
 cd spire-ai-agents-book
 
 # Start with Chapter 2: Local deployment
@@ -166,9 +166,9 @@ cd chapter-09-troubleshooting/diagnostic-scripts
 
 Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-Found a bug? [Open an issue](https://github.com/runtimefence/spire-ai-agents-book/issues).
+Found a bug? [Open an issue](https://github.com/RunTimeAdmin/spire-ai-agents-book/issues).
 
-Have a better way to do something? [Submit a PR](https://github.com/runtimefence/spire-ai-agents-book/pulls).
+Have a better way to do something? [Submit a PR](https://github.com/RunTimeAdmin/spire-ai-agents-book/pulls).
 
 ## 📝 License
 
@@ -188,14 +188,14 @@ Code examples from "SPIFFE/SPIRE for AI Agents" © 2025 David
 - [CNCF SPIFFE Project](https://www.cncf.io/projects/spiffe/)
 
 **Book Resources:**
-- [RuntimeFence](https://runtimefence.com)
+- [RunTimeAdmin](https://runtimefence.com)
 - [CyberShield Austin](https://cybershieldaustin.com)
 
 ## 📬 Contact
 
 **Author:** David  
 **CCIE:** #14019  
-**Company:** CyberShield Austin, RuntimeFence  
+**Company:** CyberShield Austin, RunTimeAdmin  
 
 ## ⭐ Star This Repo
 

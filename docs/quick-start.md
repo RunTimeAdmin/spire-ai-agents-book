@@ -12,7 +12,7 @@ Get SPIRE + AI agents running in 15 minutes.
 
 ```bash
 # Clone repo
-git clone https://github.com/runtimefence/spire-ai-agents-book.git
+git clone https://github.com/RunTimeAdmin/spire-ai-agents-book.git
 cd spire-ai-agents-book
 
 # Start SPIRE
@@ -36,7 +36,7 @@ python simple_agent.py
 
 ```bash
 # Clone repo
-git clone https://github.com/runtimefence/spire-ai-agents-book.git
+git clone https://github.com/RunTimeAdmin/spire-ai-agents-book.git
 cd spire-ai-agents-book/chapter-02-first-deployment/kubernetes
 
 # Deploy SPIRE
@@ -132,7 +132,7 @@ You need to create a registration entry (see step 1 above).
 
 ## Getting Help
 
-- **Issues:** https://github.com/runtimefence/spire-ai-agents-book/issues
+- **Issues:** https://github.com/RunTimeAdmin/spire-ai-agents-book/issues
 - **SPIRE Docs:** https://spiffe.io/docs/latest/spire/
 - **SPIRE Slack:** https://slack.spiffe.io
 - **Book:** Get full context at [Amazon](https://amazon.com/dp/YOUR_ASIN_HERE)

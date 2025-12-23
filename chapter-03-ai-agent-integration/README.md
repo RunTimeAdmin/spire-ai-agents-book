@@ -185,4 +185,4 @@ After completing this chapter:
 
 ## Support
 
-Questions? [Open an issue](https://github.com/runtimefence/spire-ai-agents-book/issues)
+Questions? [Open an issue](https://github.com/RunTimeAdmin/spire-ai-agents-book/issues)
