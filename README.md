@@ -10,7 +10,7 @@ Production-ready code examples from the book **"SPIFFE/SPIRE for AI Agents: Prod
 
 This repository contains all code examples, configurations, and scripts from the book. Each chapter has its own directory with complete, runnable examples.
 
-**Get the book:** [Amazon](https://amazon.com/dp/YOUR_ASIN_HERE) | [RunTimeAdmin](https://runtimefence.com)
+**Get the book:** [Amazon](https://www.amazon.com/dp/B0GC74BST9)) | [RunTimeAdmin](https://runtimefence.com)
 
 **132,000 words** covering everything from first deployment to passing SOC2 audits with SPIRE and AI agents.
 
